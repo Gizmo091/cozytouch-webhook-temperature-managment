@@ -31,18 +31,22 @@ curl http://localhost:8000/health
 ### Utiliser l'image Docker pré-build (GHCR)
 
 Une image multi-arch (amd64 + arm64) est publiée par CI à chaque push sur `main` et à
-chaque tag `v*` :
+chaque tag `v*`. Un fichier `docker-compose.prod.yml` prêt à l'emploi est fourni :
 
 ```bash
-docker pull ghcr.io/gizmo091/cozytouch-webhook-temperature-managment:latest
+# tirer la dernière image et lancer
+docker compose -f docker-compose.prod.yml up -d
+
+# mettre à jour plus tard
+docker compose -f docker-compose.prod.yml pull
+docker compose -f docker-compose.prod.yml up -d
+
+# épingler une version précise au lieu de :latest
+IMAGE_TAG=v1.0.0 docker compose -f docker-compose.prod.yml up -d
 ```
 
-Pour t'en servir au lieu de builder localement, dans `docker-compose.yml` remplace
-`build: .` par :
-
-```yaml
-image: ghcr.io/gizmo091/cozytouch-webhook-temperature-managment:latest
-```
+Pratique sur un Raspberry Pi ou un petit serveur : pas de toolchain de build, juste
+`docker pull` et `up`.
 
 UI : <http://localhost:8000/>  ·  Swagger : <http://localhost:8000/docs>
 

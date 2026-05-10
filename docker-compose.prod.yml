@@ -1,0 +1,34 @@
+# Variante "prod" : utilise l'image publiee sur GitHub Container Registry
+# au lieu de builder localement. Pratique sur un serveur ou un Raspberry Pi
+# qui doit juste tirer l'image et la lancer.
+#
+# Lancement :
+#   docker compose -f docker-compose.prod.yml up -d
+#
+# Mettre a jour vers la derniere image publiee :
+#   docker compose -f docker-compose.prod.yml pull
+#   docker compose -f docker-compose.prod.yml up -d
+#
+# Epingler une version precise :
+#   IMAGE_TAG=v1.0.0 docker compose -f docker-compose.prod.yml up -d
+# (un tag du genre `sha-9531309` est aussi possible)
+
+services:
+  cozytouch-api:
+    image: ghcr.io/gizmo091/cozytouch-webhook-temperature-managment:${IMAGE_TAG:-latest}
+    pull_policy: always
+    container_name: cozytouch-api
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      PRESETS_FILE: "${PRESETS_FILE:-/data/presets.json}"
+    ports:
+      - "${PORT:-8000}:${PORT:-8000}"
+    volumes:
+      - ./data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:${PORT:-8000}/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
