@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cozytouch · pilotage radiateurs</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Cozytouch</div>
+    <span id="status-line" class="muted"></span>
+    <div class="actions">
+      <button id="reload">Recharger</button>
+      <button id="refresh-states">Refresh états</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel" id="devices-panel">
+      <div class="panel-head">
+        <h2>Équipements</h2>
+        <div class="panel-tools">
+          <input type="search" id="device-filter" placeholder="filtrer (nom, type, url)…">
+          <label class="checkbox-line"><input type="checkbox" id="group-by-name" checked> regrouper par pièce</label>
+          <label class="checkbox-line"><input type="checkbox" id="show-all"> tout afficher (box, sensors…)</label>
+          <label class="checkbox-line"><input type="checkbox" id="select-all"> tout sélectionner</label>
+        </div>
+      </div>
+      <div id="devices-list" class="devices"></div>
+    </section>
+
+    <section class="panel" id="actions-panel">
+      <div class="panel-head">
+        <h2>Action sur la sélection</h2>
+        <span class="muted" id="selection-count">0 sélectionné(s)</span>
+      </div>
+
+      <div class="row">
+        <label>Consigne :</label>
+        <input type="number" id="temp-input" min="5" max="30" step="0.5" value="19">
+        <span>°C</span>
+        <button class="primary" id="apply-temp">Appliquer la consigne</button>
+      </div>
+
+      <div class="row">
+        <span>Raccourcis :</span>
+        <button class="quick" data-temp="19">19°</button>
+        <button class="quick" data-temp="17">17°</button>
+        <button class="quick" data-temp="12">12°</button>
+        <button class="quick warn" id="frost-mode">Hors gel</button>
+      </div>
+
+      <details class="custom">
+        <summary>Commande personnalisée</summary>
+        <div class="row">
+          <input type="text" id="custom-command" placeholder='ex: setHeatingLevel'>
+          <input type="text" id="custom-params" placeholder='paramètres JSON (ex: ["frostprotection"] ou [21.0])'>
+          <button id="apply-custom">Envoyer</button>
+        </div>
+      </details>
+
+      <div class="row save-preset">
+        <input type="text" id="preset-name" placeholder="Nom du preset à créer">
+        <button id="save-as-preset">Sauver l'action courante en preset</button>
+        <span class="muted small">↑ utilise la sélection + le dernier raccourci/consigne</span>
+      </div>
+
+      <pre id="action-result" class="result hidden"></pre>
+    </section>
+
+    <section class="panel" id="presets-panel">
+      <div class="panel-head">
+        <h2>Presets &amp; webhooks</h2>
+      </div>
+      <div id="presets-list" class="presets"></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+# Secrets locaux — JAMAIS committer
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Données persistées (bind-mount Docker des presets, ton compte Cozytouch s'y trouve)
+data/
+presets.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+.venv*/
+venv/
+env/
+ENV/
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# Caches tests / lint / type-check
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.tox/
+
+# IDE / éditeurs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.fleet/
+.zed/
+
+# macOS
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+Icon?
+
+# Logs locaux
+*.log
+logs/
+
+# Volumes / artefacts Docker
+docker-compose.override.yml
+*.tar
